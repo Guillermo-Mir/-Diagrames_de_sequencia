@@ -1,0 +1,23 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+header Cerca Hotel
+
+actor Usuari
+boundary "Sistema de l'Hotel (Interfície)" as UI
+control "Controlador de l'Hotel" as Control
+entity "Base de Dades" as DB
+control "Gestor de Reservas" as Gestor
+actor Administrador
+
+Usuari -> UI: Seleccionar Reserva per cancel·lar
+UI -> Control: Enviar sol·licitud de cancel·lació
+Control -> Gestor: Validar estat de la reserva
+Gestor -> DB: Consultar estat de la reserva
+Gestor -> Administrador: Sol·licitar aprovació de cancel·lació
+Administrador -> Gestor: Aprovar/Rebutjar cancel·lació
+Gestor -> DB: Actualitzar estat de l'Hotel
+Gestor -> Control: Retornar estat
+Control -> UI: Mostrar resultat
+UI -> Usuari: Confirmació de cancel·lació
+@enduml

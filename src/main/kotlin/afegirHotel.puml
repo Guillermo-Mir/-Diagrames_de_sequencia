@@ -1,0 +1,19 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+header Cerca Hotel
+
+actor Administrador
+control "Gestor de l'Hotel" as Gestor
+entity "Base de Dades" as DB
+control "Controlador de l'Hotel" as Control
+boundary "Sistema de l'Hotel (Interfície)" as UI
+
+
+Administrador -> Gestor: Afegir Hotel
+Gestor -> DB: Consultar Hotels
+DB --> Gestor: Retornar Hotels
+Gestor -> DB: Afegir Hotel
+Gestor -> Control: Retornar estat
+Control -> UI: Mostrar resultat
+UI -> Administrador: Confirmació d'afegir Hotel
+@enduml

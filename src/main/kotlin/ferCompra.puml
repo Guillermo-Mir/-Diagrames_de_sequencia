@@ -1,0 +1,25 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+header Cerca Hotel
+
+actor Usuari
+boundary "Sistema de l'Hotel (Interfície)" as UI
+control "Controlador de l'Hotel" as Control
+entity "Base de Dades" as DB
+control "Gestor de Compras" as Gestor
+actor Administrador
+
+Usuari -> UI: Seleccionar Hotel per la compra
+UI -> Control: Enviar sol·licitud de compra
+Control -> Gestor: Validar disponibilitat
+Gestor -> DB: Consultar estat del l'Hotel
+DB --> Gestor: Retornar disponibilitat
+Gestor -> Administrador: Sol·licitar aprovació
+Administrador -> Gestor: Aprovar/Rebutjar Compra
+Gestor -> DB: Actualitzar estat de l'Hotel
+Gestor -> Control: Retornar estat
+Control -> UI: Mostrar resultat
+UI -> Usuari: Confirmar compra
+
+@enduml
