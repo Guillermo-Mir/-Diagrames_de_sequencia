@@ -1,0 +1,103 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+header Sistema de Comandes
+
+actor Client
+boundary "Sistema de Comandes (Interfície)" as UI
+control "Gestor de Comandes" as Gestor
+database "Base de Dades" as DB
+
+
+Client -> UI: Realitzar comanda
+UI -> Gestor: Enviar comanda
+Gestor -> DB: Consultar estoc
+alt Plat disponible?
+    DB -> Gestor: Plat di   sponible
+    DB --> Gestor: Retornar estoc
+    Gestor -> DB: Actualitzar estoc
+else Plat no disponible
+    DB -> Gestor: Plat no disponible
+end
+Gestor -> UI: Mostrar resultat
+ alt Comanda Confirmada?
+    Gestor -> UI: Confirmar comanda
+    Client --> UI: Afegir propina
+ else
+    Gestor -> UI: Informar que el plat no està disponible
+    Client --> UI: Modificar Comanda
+ end
+@enduml
+
+newpage
+@startuml
+actor Client
+boundary "Sistema de Comandes (Interfície)" as UI
+control "Gestor de Comandes" as Gestor
+database "Base de Dades" as DB
+
+Client -> UI: Seleccionar Plats
+UI -> Gestor: Enviar Plats
+Gestor -> DB: Consultar estoc
+alt Plat disponible?
+    DB -> Gestor: Plat disponible
+    DB --> Gestor: Retornar estoc
+    Gestor -> DB: Actualitzar estoc
+else Plat no disponible
+    DB -> Gestor: Plat no disponible
+end
+Gestor -> UI: Mostrar resultat
+@enduml
+
+newpage
+
+@startuml
+
+actor Cuiner
+boundary "Sistema de Comandes (Interfície)" as UI
+control "Gestor de Comandes" as Gestor
+
+
+Cuiner -> UI: Veure Comandes
+UI -> Gestor: Consultar Comandes
+alt Hi ha comandes??
+    Gestor -> UI: Mostrar comandes Pendents
+else
+    Gestor -> UI: Mostrar Resultat
+end
+
+@enduml
+newpage
+
+@startuml
+
+actor Repartidor
+boundary "Sistema de Comandes (Interfície)" as UI
+control "Gestor de Comandes" as Gestor
+
+Repartidor -> UI: Comandes per entregar
+UI -> Gestor: Consultar comandes
+alt Hi ha comandes per lliurar?
+ Gestor -> UI: Lliurar Comanda
+else
+  Gestor -> UI: No hi ha comandes
+ end
+@enduml
+
+newpage
+
+@startuml
+actor Repartidor
+boundary "Sistema de Comandes (Interfície)" as UI
+control "Gestor de Comandes" as Gestor
+
+Repartidor -> UI: Notificar entregar
+UI -> Gestor: Consultar entregar
+alt Entregat correctament?
+ Gestor -> UI: Comanda Entregada
+else
+  Gestor -> UI: Comanda no entregada
+ end
+
+
+@enduml
